@@ -5,10 +5,10 @@ const QuoteText = props => (
    <div className='quote-open'>“</div>
    <div className='quote-close'>”</div>
    <div className='quote-text'>
-     { props.quote.text }
+     { props.text }
    </div>
    <div className='quote-author'>
-     <em>— { props.quote.author }</em>
+     <em>— { props.author }</em>
    </div>
  </div>
 )

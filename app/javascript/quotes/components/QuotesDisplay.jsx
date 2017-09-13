@@ -65,7 +65,7 @@ class QuotesDisplay extends React.Component {
             />
           }
 
-          <QuoteText quote={quote} />
+          <QuoteText {...quote} />
 
           { nextQuoteId &&
             <QuoteNavigation
