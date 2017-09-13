@@ -56,9 +56,9 @@ class QuotesDisplay extends React.Component {
     return (
       <div>
         <div className="quote-container">
-          {this.fireRedirect && <Redirect to={'/'} />}
+          { this.fireRedirect && <Redirect to={'/'} /> }
 
-          {previousQuoteId &&
+          { previousQuoteId &&
             <QuoteNavigation
               direction='previous'
               otherQuoteId={previousQuoteId}
@@ -67,13 +67,16 @@ class QuotesDisplay extends React.Component {
 
           <QuoteText quote={quote} />
 
-          {nextQuoteId &&
+          { nextQuoteId &&
             <QuoteNavigation
               direction='next'
               otherQuoteId={nextQuoteId}
             />
           }
         </div>
+        { quote.id !== parseInt(this.props.startingQuoteId, 10) &&
+          <QuoteFooter startingQuoteId={ this.props.startingQuoteId } />
+        }
       </div>
     )
   }
