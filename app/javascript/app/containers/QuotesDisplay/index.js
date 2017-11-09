@@ -2,9 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import queryString from 'query-string'
 import axios from 'axios'
-import QuoteText from './QuoteText'
-import QuoteNavigation from './QuoteNavigation'
-import QuoteFooter from './QuoteFooter'
+import { Text, Navigation, Footer } from '../../components/Quote'
 
 class QuotesDisplay extends React.Component {
   constructor() {
@@ -15,7 +13,7 @@ class QuotesDisplay extends React.Component {
     }
   }
 
-  fetchQuote (id) {
+  fetchQuote(id) {
     axios.get(`api/quotes/${id}`)
       .then(response => {
         this.setState({ quote: response.data })
@@ -26,7 +24,7 @@ class QuotesDisplay extends React.Component {
       })
   }
 
-  setQuoteIdFromQueryString (qs) {
+  setQuoteIdFromQueryString(qs) {
     this.qsParams = queryString.parse(qs)
     if (this.qsParams.quote) {
       // assign quote ID from the URL's query string
@@ -38,12 +36,12 @@ class QuotesDisplay extends React.Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setQuoteIdFromQueryString(this.props.location.search)
     this.fetchQuote(this.quoteId)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setQuoteIdFromQueryString(nextProps.location.search)
     this.fetchQuote(this.quoteId)
   }
@@ -56,26 +54,26 @@ class QuotesDisplay extends React.Component {
     return (
       <div>
         <div className="quote-container">
-          { this.fireRedirect && <Redirect to={'/'} /> }
+          {this.fireRedirect && <Redirect to={'/'} />}
 
-          { previousQuoteId &&
-            <QuoteNavigation
+          {previousQuoteId &&
+            <Navigation
               direction='previous'
               otherQuoteId={previousQuoteId}
             />
           }
 
-          <QuoteText {...quote} />
+          <Text {...quote} />
 
-          { nextQuoteId &&
-            <QuoteNavigation
+          {nextQuoteId &&
+            <Navigation
               direction='next'
               otherQuoteId={nextQuoteId}
             />
           }
         </div>
-        { quote.id !== parseInt(this.props.startingQuoteId, 10) &&
-          <QuoteFooter startingQuoteId={ this.props.startingQuoteId } />
+        {quote.id !== parseInt(this.props.startingQuoteId, 10) &&
+          <Footer startingQuoteId={this.props.startingQuoteId} />
         }
       </div>
     )
