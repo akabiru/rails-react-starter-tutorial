@@ -2,27 +2,29 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import queryString from 'query-string'
 import axios from 'axios'
+
 import { Text, Navigation, Footer } from '../../components/Quote'
+import { FETCH_QUOTE } from '../../messages'
 
 class QuotesDisplay extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      quote: {},
-      fireRedirect: false
-    }
-  }
+  // constructor() {
+  //   super()
+  //   this.state = {
+  //     quote: {},
+  //     fireRedirect: false
+  //   }
+  // }
 
-  fetchQuote(id) {
-    axios.get(`api/quotes/${id}`)
-      .then(response => {
-        this.setState({ quote: response.data })
-      })
-      .catch(error => {
-        console.error(error)
-        this.setState({ fireRedirect: true })
-      })
-  }
+  // fetchQuote(id) {
+  //   axios.get(`api/quotes/${id}`)
+  //     .then(response => {
+  //       this.setState({ quote: response.data })
+  //     })
+  //     .catch(error => {
+  //       console.error(error)
+  //       this.setState({ fireRedirect: true })
+  //     })
+  // }
 
   setQuoteIdFromQueryString(qs) {
     this.qsParams = queryString.parse(qs)
@@ -38,7 +40,11 @@ class QuotesDisplay extends React.Component {
 
   componentDidMount() {
     this.setQuoteIdFromQueryString(this.props.location.search)
-    this.fetchQuote(this.quoteId)
+    store.dispatch({
+      type: FETCH_QUOTE,
+      quoteId: this.quoteId
+    })
+    // this.fetchQuote(this.quoteId)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,14 +53,16 @@ class QuotesDisplay extends React.Component {
   }
 
   render() {
-    const quote = this.state.quote
+    const state = store.getState()
+    const quote = state.quote
     const nextQuoteId = quote.next_id
     const previousQuoteId = quote.previous_id
+    const fireRedirect = state.fireRedirect
 
     return (
       <div>
         <div className="quote-container">
-          {this.fireRedirect && <Redirect to={'/'} />}
+          {fireRedirect && <Redirect to={'/'} />}
 
           {previousQuoteId &&
             <Navigation
