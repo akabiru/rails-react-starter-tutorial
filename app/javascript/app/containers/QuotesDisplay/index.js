@@ -7,24 +7,12 @@ import { Text, Navigation, Footer } from '../../components/Quote'
 import { FETCH_QUOTE } from '../../messages'
 
 class QuotesDisplay extends React.Component {
-  // constructor() {
-  //   super()
-  //   this.state = {
-  //     quote: {},
-  //     fireRedirect: false
-  //   }
-  // }
-
-  // fetchQuote(id) {
-  //   axios.get(`api/quotes/${id}`)
-  //     .then(response => {
-  //       this.setState({ quote: response.data })
-  //     })
-  //     .catch(error => {
-  //       console.error(error)
-  //       this.setState({ fireRedirect: true })
-  //     })
-  // }
+  fetchQuote(id) {
+    store.dispatch({
+      type: FETCH_QUOTE,
+      quoteId: id,
+    })
+  }
 
   setQuoteIdFromQueryString(qs) {
     this.qsParams = queryString.parse(qs)
@@ -40,11 +28,7 @@ class QuotesDisplay extends React.Component {
 
   componentDidMount() {
     this.setQuoteIdFromQueryString(this.props.location.search)
-    store.dispatch({
-      type: FETCH_QUOTE,
-      quoteId: this.quoteId
-    })
-    // this.fetchQuote(this.quoteId)
+    this.fetchQuote(this.quoteId)
   }
 
   componentWillReceiveProps(nextProps) {

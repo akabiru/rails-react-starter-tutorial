@@ -6,10 +6,7 @@ import App from '../app/containers/App'
 import configureStore from '../app/store/configureStore'
 
 const quotes = document.querySelector('#quotes')
-const store = configureStore({
-  quote: {},
-  fireRedirect: false
-})
+const store = configureStore()
 
 ReactDOM.render(
   <Provider store={store}>
