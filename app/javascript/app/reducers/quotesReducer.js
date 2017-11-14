@@ -5,7 +5,8 @@ function quotesReducer(state = {}, action) {
   switch(action.type) {
     case actionTypes.GET_QUOTE:
       return Object.assign({}, state, {
-        quote: action.quote
+        quote: action.quote,
+        fireRedirect: action.fireRedirect,
       })
     // {
     //   axios.get(`api/quotes/${action.quouteId}`)

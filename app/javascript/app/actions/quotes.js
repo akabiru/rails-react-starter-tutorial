@@ -6,6 +6,7 @@ export function getQuoteIsLoading(status) {
     type: actionTypes.GET_QUOTE_IS_LOADING,
     isLoading: status,
     error: false,
+    fireRedirect: false,
   }
 }
 
@@ -14,6 +15,7 @@ export function getQuoteDidError(err) {
     type: actionTypes.GET_QUOTE_DID_ERROR,
     isLoading: false,
     error: err,
+    fireRedirect: true,
   }
 }
 
@@ -22,6 +24,7 @@ export function getQuoteSuccess(quote) {
     type: actionTypes.GET_QUOTE_SUCESS,
     isLoading: false,
     quote,
+    fireRedirect: false,
   }
 }
 
