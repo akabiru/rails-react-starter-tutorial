@@ -1,22 +1,26 @@
 import axios from 'axios'
-import { FETCH_QUOTE } from '../messages'
+import * as actionTypes from '../actions/actionTypes'
 
 function quotesReducer(state = {}, action) {
   switch(action.type) {
-    case FETCH_QUOTE: {
-      axios.get(`api/quotes/${action.quouteId}`)
-        .then(response => {
-          return Object.assign({}, state, {
-            quote: response.data
-          })
-        })
-        .catch(error => {
-          console.error(error)
-          return Object.assign({}, state, {
-            fireRedirect: true
-          })
-        })
-    }
+    case actionTypes.GET_QUOTE:
+      return Object.assign({}, state, {
+        quote: action.quote
+      })
+    // {
+    //   axios.get(`api/quotes/${action.quouteId}`)
+    //     .then(response => {
+    //       return Object.assign({}, state, {
+    //         quote: response.data
+    //       })
+    //     })
+    //     .catch(error => {
+    //       console.error(error)
+    //       return Object.assign({}, state, {
+    //         fireRedirect: true
+    //       })
+    //     })
+    // }
     default:
       return state
   }

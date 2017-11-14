@@ -6,6 +6,7 @@ import axios from 'axios'
 
 import { Text, Navigation, Footer, View } from '../../components/Quote'
 import { FETCH_QUOTE } from '../../messages'
+import getQuote from '../../actions/quotes'
 
 const mapStateToViewProps = state => {
   const { quote = {} } = state
@@ -20,12 +21,7 @@ const mapStateToViewProps = state => {
 
 const mapDispatchToViewProps = dispatch => (
   {
-    fetchQuote: (id) => (
-      dispatch({
-        type: FETCH_QUOTE,
-        quoteId: id,
-      })
-    ),
+    fetchQuote: (id) => dispatch(getQuote(`api/quotes/${id}`)),
   }
 )
 
