@@ -8,7 +8,7 @@ import { Text, Navigation, Footer, View } from '../../components/Quote'
 import { FETCH_QUOTE } from '../../messages'
 
 const mapStateToViewProps = state => {
-  const quote = state.quote
+  const { quote = {} } = state
 
   return {
     quote,

@@ -1,5 +1,9 @@
 import React from 'react'
 
+import Navigation from './Navigation'
+import Footer from './Footer'
+import Text from './Text'
+
 const View = props => (
   <div>
     <div className="quote-container">
@@ -26,3 +30,5 @@ const View = props => (
     }
   </div>
 )
+
+export default View
