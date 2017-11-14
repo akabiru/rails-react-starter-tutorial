@@ -1,19 +1,35 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import queryString from 'query-string'
 import axios from 'axios'
 
-import { Text, Navigation, Footer } from '../../components/Quote'
+import { Text, Navigation, Footer, View } from '../../components/Quote'
 import { FETCH_QUOTE } from '../../messages'
 
-class QuotesDisplay extends React.Component {
-  fetchQuote(id) {
-    store.dispatch({
-      type: FETCH_QUOTE,
-      quoteId: id,
-    })
-  }
+const mapStateToViewProps = state => {
+  const quote = state.quote
 
+  return {
+    quote,
+    nextQuoteId: quote.next_id,
+    previousQuoteId: quote.previous_id,
+    fireRedirect: state.fireRedirect,
+  }
+}
+
+const mapDispatchToViewProps = dispatch => (
+  {
+    fetchQuote: (id) => (
+      dispatch({
+        type: FETCH_QUOTE,
+        quoteId: id,
+      })
+    ),
+  }
+)
+
+class QuotesDisplay extends React.Component {
   setQuoteIdFromQueryString(qs) {
     this.qsParams = queryString.parse(qs)
     if (this.qsParams.quote) {
@@ -28,48 +44,19 @@ class QuotesDisplay extends React.Component {
 
   componentDidMount() {
     this.setQuoteIdFromQueryString(this.props.location.search)
-    this.fetchQuote(this.quoteId)
+    this.props.fetchQuote(this.quoteId)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setQuoteIdFromQueryString(nextProps.location.search)
-    this.fetchQuote(this.quoteId)
+    this.props.fetchQuote(this.quoteId)
   }
 
   render() {
-    const state = store.getState()
-    const quote = state.quote
-    const nextQuoteId = quote.next_id
-    const previousQuoteId = quote.previous_id
-    const fireRedirect = state.fireRedirect
-
     return (
-      <div>
-        <div className="quote-container">
-          {fireRedirect && <Redirect to={'/'} />}
-
-          {previousQuoteId &&
-            <Navigation
-              direction='previous'
-              otherQuoteId={previousQuoteId}
-            />
-          }
-
-          <Text {...quote} />
-
-          {nextQuoteId &&
-            <Navigation
-              direction='next'
-              otherQuoteId={nextQuoteId}
-            />
-          }
-        </div>
-        {quote.id !== parseInt(this.props.startingQuoteId, 10) &&
-          <Footer startingQuoteId={this.props.startingQuoteId} />
-        }
-      </div>
+      <View {...this.props} />
     )
   }
 }
 
-export default QuotesDisplay
+export default connect(mapStateToViewProps, mapDispatchToViewProps)(QuotesDisplay)
