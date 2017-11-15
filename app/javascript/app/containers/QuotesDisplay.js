@@ -26,28 +26,28 @@ const mapDispatchToViewProps = dispatch => (
 
 class QuotesDisplay extends React.Component {
   setQuoteIdFromQueryString(qs) {
-    let quoteId;
 
     this.qsParams = queryString.parse(qs)
 
     if (this.qsParams.quote) {
       // assign quote ID from the URL's query string
-      quoteId = Number(this.qsParams.quote)
+      this.quoteId = Number(this.qsParams.quote)
     } else {
-      quoteId = this.props.startingQuoteId
+      this.quoteId = this.props.startingQuoteId
       // update URL in browser to reflect current quote in query string
       this.props.history.push(`/?quote=${quoteId}`)
     }
-    // fetch Quote
-    this.props.fetchQuote(quoteId)
   }
 
   componentDidMount() {
     this.setQuoteIdFromQueryString(this.props.location.search)
+    console.log(this.quoteId)
+    this.props.fetchQuote(this.quoteId)
   }
 
   componentWillReceiveProps(nextProps) {
     this.setQuoteIdFromQueryString(nextProps.location.search)
+    this.props.fetchQuote(this.quoteId)
   }
 
   render() {
