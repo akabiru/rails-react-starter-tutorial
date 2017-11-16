@@ -7,11 +7,16 @@ import axios from 'axios'
 import { Text, Navigation, Footer, View } from '../components/Quote'
 import { getQuote } from '../actions/quotes'
 
-const mapStateToViewProps = state => {
-  const { quote = {} } = state
+const mapStateToViewProps = (state, ownProps) => {
+  console.log('ownProps: ', ownProps)
+  console.log('state: ', state)
+  const { quote: { quote = {} } } = state
+  const qs = ownProps.location.search
+  const quoteId = queryString.parse(qs).quote || ownProps.startingQuoteId
 
   return {
     quote,
+    quoteId,
     nextQuoteId: quote.next_id,
     previousQuoteId: quote.previous_id,
     fireRedirect: state.fireRedirect,
@@ -25,29 +30,14 @@ const mapDispatchToViewProps = dispatch => (
 )
 
 class QuotesDisplay extends React.Component {
-  setQuoteIdFromQueryString(qs) {
-
-    this.qsParams = queryString.parse(qs)
-
-    if (this.qsParams.quote) {
-      // assign quote ID from the URL's query string
-      this.quoteId = Number(this.qsParams.quote)
-    } else {
-      this.quoteId = this.props.startingQuoteId
-      // update URL in browser to reflect current quote in query string
-      this.props.history.push(`/?quote=${quoteId}`)
-    }
-  }
-
   componentDidMount() {
-    this.setQuoteIdFromQueryString(this.props.location.search)
-    console.log(this.quoteId)
-    this.props.fetchQuote(this.quoteId)
+    this.props.fetchQuote(this.props.quoteId)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setQuoteIdFromQueryString(nextProps.location.search)
-    this.props.fetchQuote(this.quoteId)
+    if (nextProps.quoteId !== this.props.quoteId) {
+      this.props.fetchQuote(nextProps.quoteId)
+    }
   }
 
   render() {

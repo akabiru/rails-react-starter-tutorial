@@ -8,20 +8,18 @@ function quotesReducer(state = {}, action) {
         quote: action.quote,
         fireRedirect: action.fireRedirect,
       })
-    // {
-    //   axios.get(`api/quotes/${action.quouteId}`)
-    //     .then(response => {
-    //       return Object.assign({}, state, {
-    //         quote: response.data
-    //       })
-    //     })
-    //     .catch(error => {
-    //       console.error(error)
-    //       return Object.assign({}, state, {
-    //         fireRedirect: true
-    //       })
-    //     })
-    // }
+    case actionTypes.GET_QUOTE_SUCESS:
+      return Object.assign({}, state, {
+        quote: action.quote,
+        isLoading: false,
+        fireRedirect: false,
+      })
+    case actionTypes.GET_QUOTE_IS_LOADING:
+      return Object.assign({}, state, {
+        isLoading: true,
+        error: false,
+        fireRedirect: false,
+      })
     default:
       return state
   }

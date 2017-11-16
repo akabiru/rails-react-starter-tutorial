@@ -32,16 +32,12 @@ export function getQuote(url) {
   return dispatch => {
     dispatch(getQuoteIsLoading(true))
 
-    axios.get(url)
+    return axios.get(url)
       .then(response => {
-        if (response.status !== 200) {
-          dispatch(getQuoteDidError(`Error: ${response.statusText}`))
-        }
+        dispatch(getQuoteSuccess(response.data))
 
-        dispatch(getQuoteIsLoading(false))
         return response
       })
-      .then(quote => dispatch(getQuoteSuccess(quote.data)))
       .catch(err => dispatch(getQuoteDidError(err)))
   }
 }
