@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 
-const QuoteNavigation = props => {
+const Navigation = props => {
   const isPrevious = props.direction === 'previous'
 
   return (
     <Link
       className={`link-${props.direction}`}
-      to={ `/?quote=${props.otherQuoteId}` }
+      to={`/?quote=${props.otherQuoteId}`}
     >
       <i
-        className={`fa fa-angle-${isPrevious ? 'left': 'right'}`}
+        className={`fa fa-angle-${isPrevious ? 'left' : 'right'}`}
         aria-hidden='true'
       >
         <span />
@@ -19,4 +19,4 @@ const QuoteNavigation = props => {
   )
 }
 
-export default QuoteNavigation
+export default Navigation
